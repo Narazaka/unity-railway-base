@@ -42,7 +42,7 @@ public class Route : ScriptableObject {
             currentPosition += railObject.MoveVector;
             if (segment is CurveRouteSegment) currentAngle += (segment as CurveRouteSegment).Angle;
             railObjects.Add(railObject);
-            Debug.Log("move=" + railObject.MoveVector + " len=" + railObject.Length + " center=" + railObject.Center + " rot=" + railObject.Rotate);
+            Debug.Log("move=" + railObject.MoveVector + " len=" + railObject.Length + " center=" + railObject.Center + " rot=" + railObject.Direction);
         }
         return railObjects;
     }

@@ -20,19 +20,19 @@ public class RailObject {
     public float LeftLength;
     public float RightLength;
     public float BaseLength;
-    public Vector3 Rotate;
+    public Vector3 Direction;
 
     public RailObject(Vector3 start, float length, int angle, int permil) {
         PlaneLength = length;
         MoveVector =
             new Vector3(
                 (float)Math.Sin(angle * DegreeToRadian),
-                (float)Math.Cos(angle * DegreeToRadian),
-                permil * 0.001f
+                permil * 0.001f,
+                (float)Math.Cos(angle * DegreeToRadian)
                 ) * length;
         Center = start + MoveVector / 2;
         Length = MoveVector.magnitude;
-        Rotate = MoveVector.normalized;
+        Direction = MoveVector.normalized;
         LeftLength = Length;
         RightLength = Length;
         BaseLength = Length;
@@ -42,8 +42,8 @@ public class RailObject {
         var direction =
             new Vector3(
                 (float)Math.Sin((angle + addAngle / 2.0) * DegreeToRadian),
-                (float)Math.Cos((angle + addAngle / 2.0) * DegreeToRadian),
-                permil * 0.001f
+                permil * 0.001f,
+                (float)Math.Cos((angle + addAngle / 2.0) * DegreeToRadian)
                 );
         var directionMagnitude = direction.magnitude;
         PlaneLength = StraightLength(radius, addAngle);
@@ -54,7 +54,7 @@ public class RailObject {
         MoveVector = direction * PlaneLength;
         Center = start + MoveVector / 2;
         Length = directionMagnitude * PlaneLength;
-        Rotate = MoveVector.normalized;
+        Direction = MoveVector.normalized;
         LeftLength = directionMagnitude * (PlaneLength + railOffset);
         RightLength = directionMagnitude * (PlaneLength - railOffset);
         BaseLength = directionMagnitude * (PlaneLength + baseOffset);
