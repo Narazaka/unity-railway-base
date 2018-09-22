@@ -5,7 +5,8 @@ using UnityEngine;
 
 [Serializable]
 public class CurveRouteSegment : RouteSegment {
-    public const float SubAngleLength = 2;
+    public const float MaxSubSegmentLength = 3;
+    public const float MaxSubSegmentAngle = 1;
     public float Angle;
     public float Radius;
     public float Permil;
@@ -17,11 +18,9 @@ public class CurveRouteSegment : RouteSegment {
     }
 
     public override IEnumerable<RouteSegment> ToSubSegments() {
-        var subAngleCount = SubAngleCount();
+        var subAngleCount = SubSegmentCount();
         var subAngle = Angle / subAngleCount;
         var subAngleLastIndex = subAngleCount - 1;
-        Debug.Log(subAngle);
-        Debug.Log(subAngleCount);
         return Enumerable.Range(0, subAngleCount).
             Select((index) => new CurveRouteSegment(
                 index == subAngleLastIndex ? Angle - subAngle * subAngleLastIndex : subAngle,
@@ -30,8 +29,16 @@ public class CurveRouteSegment : RouteSegment {
                 ) as RouteSegment);
     }
 
-    private int SubAngleCount() {
-        var maxSubAngle = 180 * SubAngleLength / Math.PI / Radius;
+    private int SubSegmentCount() {
+        return Math.Max(SubSegmentCountByLength(), SubSegmentCountByAngle());
+    }
+
+    private int SubSegmentCountByLength() {
+        var maxSubAngle = 180 * MaxSubSegmentLength / Math.PI / Radius;
         return (int)Math.Ceiling(Angle / maxSubAngle);
+    }
+
+    private int SubSegmentCountByAngle() {
+        return (int)Math.Ceiling(Angle / MaxSubSegmentAngle);
     }
 }
