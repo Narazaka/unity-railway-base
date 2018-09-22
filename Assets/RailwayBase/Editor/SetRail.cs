@@ -13,12 +13,12 @@ public static class SetRail {
         new StraightRouteSegment(100, 20),
         new CurveRouteSegment(30, 400),
         new StraightRouteSegment(100, 20),
-        new StraightRouteSegment(100, 20),
-        new StraightRouteSegment(10000, 2),
+        new StraightRouteSegment(100, -30),
     });
 
     [MenuItem("RailRoad/Make")]
     static void Set() {
         var railObjects = Route.ToSubSegments().ToRailObjects();
+        Rail3DMaker.Make3DRail(railObjects);
     }
 }
