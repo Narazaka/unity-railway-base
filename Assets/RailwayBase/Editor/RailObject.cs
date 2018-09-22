@@ -22,7 +22,7 @@ public class RailObject {
     public float BaseLength;
     public Vector3 Direction;
 
-    public RailObject(Vector3 start, float length, int angle, int permil) {
+    public RailObject(Vector3 start, float length, float angle, float permil) {
         PlaneLength = length;
         MoveVector =
             new Vector3(
@@ -38,7 +38,7 @@ public class RailObject {
         BaseLength = Length;
     }
 
-    public RailObject(Vector3 start, int radius, int angle, int addAngle, int permil) {
+    public RailObject(Vector3 start, float radius, float angle, float addAngle, float permil) {
         var direction =
             new Vector3(
                 (float)Math.Sin((angle + addAngle / 2.0) * DegreeToRadian),
@@ -66,7 +66,7 @@ public class RailObject {
     /// <param name="radius">曲率半径</param>
     /// <param name="angle">曲がる角度</param>
     /// <returns></returns>
-    private float StraightLength(int radius, int angle) {
+    private float StraightLength(float radius, float angle) {
         return (float)(2 * Math.Sin(Math.Abs(angle) / 2.0 * DegreeToRadian) * radius);
     }
 
@@ -76,7 +76,7 @@ public class RailObject {
     /// <param name="angle">曲がる角度</param>
     /// <param name="width">中心からの幅</param>
     /// <returns></returns>
-    private float StraightWidthOffsetLength(int angle, float width) {
+    private float StraightWidthOffsetLength(float angle, float width) {
         return (float)(Math.Tan(Math.Abs(angle) / 2.0 * DegreeToRadian) * width);
     }
 }

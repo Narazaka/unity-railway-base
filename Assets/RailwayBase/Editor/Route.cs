@@ -20,7 +20,7 @@ public class Route : ScriptableObject {
         return new Route(RouteSegments.SelectMany(segment => segment.ToSubSegments()));
     }
 
-    public IList<RailObject> ToRailObjects(Vector3 currentPosition = default(Vector3), int currentAngle = 0) {
+    public IList<RailObject> ToRailObjects(Vector3 currentPosition = default(Vector3), float currentAngle = 0) {
         var railObjects = new List<RailObject>();
         foreach (var segment in RouteSegments) {
             Debug.Log(currentPosition + " " + currentAngle);

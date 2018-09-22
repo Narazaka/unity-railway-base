@@ -5,9 +5,9 @@ using System;
 [Serializable]
 public class StraightRouteSegment : RouteSegment {
     public float Length { get; set; }
-    public int Permil;
+    public float Permil;
 
-    public StraightRouteSegment(float length, int permil = 0) {
+    public StraightRouteSegment(float length, float permil = 0) {
         Length = length;
         Permil = permil;
     }
