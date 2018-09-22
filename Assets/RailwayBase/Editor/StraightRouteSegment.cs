@@ -6,10 +6,12 @@ using System;
 public class StraightRouteSegment : RouteSegment {
     public float Length { get; set; }
     public float Permil;
+    public float Cant;
 
-    public StraightRouteSegment(float length, float permil = 0) {
+    public StraightRouteSegment(float length, float permil = 0, float cant = 0) {
         Length = length;
         Permil = permil;
+        Cant = cant;
     }
 
     public override IEnumerable<RouteSegment> ToSubSegments() {

@@ -23,8 +23,8 @@ public class Rail3DMaker {
         foreach (var railObject in railObjects) {
             var segmentObj = new GameObject("segment-" + index);
             segmentObj.transform.parent = container.transform;
-            segmentObj.transform.position = railObject.Center;
-            segmentObj.transform.rotation = Quaternion.FromToRotation(Vector3.forward, railObject.Direction);
+            segmentObj.transform.position = railObject.Center + Vector3.up * railObject.CenterCantHeight;
+            segmentObj.transform.rotation = Quaternion.FromToRotation(Vector3.forward, railObject.Direction) * railObject.CantRotation;
             var baseObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
             baseObj.name = "base";
             baseObj.transform.parent = segmentObj.transform;

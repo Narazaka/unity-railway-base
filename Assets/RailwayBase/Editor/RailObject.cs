@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEditor;
 
 public class RailObject {
     public const float RailBetweenWidth = 1.067f;
@@ -12,6 +13,9 @@ public class RailObject {
 
     public Vector3 MoveVector;
     public Vector3 Center;
+    public float CenterCantHeight;
+    public float StartCenterCantHeight;
+    public float EndCenterCantHeight;
     /// <summary>
     /// 高さ変化を考慮しない長さ
     /// </summary>
@@ -23,6 +27,9 @@ public class RailObject {
     public Vector3 Direction;
     public Vector3 StartDirection;
     public Vector3 EndDirection;
+    public Quaternion CantRotation;
+    public Quaternion StartCantRotation;
+    public Quaternion EndCantRotation;
     public float StartAngle;
     public float EndAngle;
 
@@ -33,8 +40,10 @@ public class RailObject {
             new Vector3(0, segment.Permil * 0.001f, 1) *
             segment.Length;
         Center = start + MoveVector / 2;
+        CenterCantHeight = StartCenterCantHeight = EndCenterCantHeight = segment.Cant / 2;
         Length = MoveVector.magnitude;
         Direction = StartDirection = EndDirection = MoveVector.normalized;
+        CantRotation = StartCantRotation = EndCantRotation = Quaternion.Euler(0, 0, CantAngle(segment.Cant));
         LeftLength = Length;
         RightLength = Length;
         BaseLength = Length;
@@ -58,10 +67,18 @@ public class RailObject {
 
         MoveVector = direction * PlaneLength;
         Center = start + MoveVector / 2;
+        CenterCantHeight = (segment.StartCant + segment.EndCant) / 2;
+        StartCenterCantHeight = segment.StartCant / 2;
+        EndCenterCantHeight = segment.EndCant / 2;
         Length = directionMagnitude * PlaneLength;
         Direction = MoveVector.normalized;
         StartDirection = startDirection.normalized;
         EndDirection = endDirection.normalized;
+        var startCantAngle = CantAngle(segment.StartCant);
+        var endCantAngle = CantAngle(segment.EndCant);
+        StartCantRotation = Quaternion.Euler(0, 0, startCantAngle);
+        EndCantRotation = Quaternion.Euler(0, 0, endCantAngle);
+        CantRotation = Quaternion.Euler(0, 0, (startCantAngle + endCantAngle) / 2);
         LeftLength = directionMagnitude * (PlaneLength - railOffset);
         RightLength = directionMagnitude * (PlaneLength + railOffset);
         BaseLength = directionMagnitude * (PlaneLength + baseOffset);
@@ -90,5 +107,9 @@ public class RailObject {
     /// <returns></returns>
     private float StraightWidthOffsetLength(float angle, float width) {
         return (float)(Math.Tan(Math.Abs(angle) / 2.0 * DegreeToRadian) * width);
+    }
+
+    private float CantAngle(float cant) {
+        return -(float)(Math.Atan2(cant, RailBetweenWidth) / DegreeToRadian);
     }
 }
