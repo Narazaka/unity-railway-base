@@ -27,11 +27,9 @@ public class RailObject {
     public RailObject(Vector3 start, float startAngle, StraightRouteSegment segment) {
         PlaneLength = segment.Length;
         MoveVector =
-            new Vector3(
-                (float)Math.Sin(startAngle * DegreeToRadian),
-                segment.Permil * 0.001f,
-                (float)Math.Cos(startAngle * DegreeToRadian)
-                ) * segment.Length;
+            Quaternion.Euler(0, startAngle, 0) *
+            new Vector3(0, segment.Permil * 0.001f, 1) *
+            segment.Length;
         Center = start + MoveVector / 2;
         Length = MoveVector.magnitude;
         Direction = MoveVector.normalized;
@@ -42,13 +40,10 @@ public class RailObject {
     }
 
     public RailObject(Vector3 start, float startAngle, CurveRouteSegment segment) {
-        var middleAngle = startAngle + segment.Angle / 2.0;
+        var middleAngle = startAngle + segment.Angle / 2.0f;
         var direction =
-            new Vector3(
-                (float)Math.Sin(middleAngle * DegreeToRadian),
-                segment.Permil * 0.001f,
-                (float)Math.Cos(middleAngle * DegreeToRadian)
-                );
+            Quaternion.Euler(0, middleAngle, 0) *
+            new Vector3(0, segment.Permil * 0.001f, 1);
         var directionMagnitude = direction.magnitude;
         PlaneLength = StraightLength(segment.Radius, segment.Angle);
         var railOffset = StraightWidthOffsetLength(segment.Angle, RailBetweenWidth / 2.0f);
