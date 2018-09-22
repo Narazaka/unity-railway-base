@@ -7,7 +7,9 @@ public static class SetRail {
 
     static Route Route = new Route(new List<RouteSegment> {
         new StraightRouteSegment(800),
-        new CurveRouteSegment(30, 400),
+        new CurveRouteSegment(6, 400, 0, 0, 0.1f),
+        new CurveRouteSegment(18, 200, 0, 0.1f, 0.1f),
+        new CurveRouteSegment(6, 400, 0, 0.1f, 0),
         new StraightRouteSegment(100, 20),
         new CurveRouteSegment(30, 400),
         new StraightRouteSegment(100, 20),
