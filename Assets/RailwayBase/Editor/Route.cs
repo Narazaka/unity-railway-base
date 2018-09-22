@@ -29,15 +29,12 @@ public class Route : ScriptableObject {
                 new RailObject(
                     currentPosition,
                     currentAngle,
-                    (segment as StraightRouteSegment).Length,
-                    (segment as StraightRouteSegment).Permil
+                    segment as StraightRouteSegment
                     ) :
                 new RailObject(
                     currentPosition,
                     currentAngle,
-                    (segment as CurveRouteSegment).Radius,
-                    (segment as CurveRouteSegment).Angle,
-                    (segment as CurveRouteSegment).Permil
+                    segment as CurveRouteSegment
                     );
             currentPosition += railObject.MoveVector;
             if (segment is CurveRouteSegment) currentAngle += (segment as CurveRouteSegment).Angle;
