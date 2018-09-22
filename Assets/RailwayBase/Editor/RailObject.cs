@@ -24,7 +24,7 @@ public class RailObject {
     public float StartAngle;
     public float EndAngle;
 
-    public RailObject(Vector3 start, float length, float angle, float permil) {
+    public RailObject(Vector3 start, float angle, float length, float permil) {
         PlaneLength = length;
         MoveVector =
             new Vector3(
@@ -41,7 +41,7 @@ public class RailObject {
         StartAngle = EndAngle = angle;
     }
 
-    public RailObject(Vector3 start, float radius, float angle, float addAngle, float permil) {
+    public RailObject(Vector3 start, float angle, float radius, float addAngle, float permil) {
         var middleAngle = angle + addAngle / 2.0;
         var direction =
             new Vector3(

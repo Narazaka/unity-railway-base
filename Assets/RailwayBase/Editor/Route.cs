@@ -28,14 +28,14 @@ public class Route : ScriptableObject {
                 segment is StraightRouteSegment ?
                 new RailObject(
                     currentPosition,
-                    (segment as StraightRouteSegment).Length,
                     currentAngle,
+                    (segment as StraightRouteSegment).Length,
                     (segment as StraightRouteSegment).Permil
                     ) :
                 new RailObject(
                     currentPosition,
-                    (segment as CurveRouteSegment).Radius,
                     currentAngle,
+                    (segment as CurveRouteSegment).Radius,
                     (segment as CurveRouteSegment).Angle,
                     (segment as CurveRouteSegment).Permil
                     );
