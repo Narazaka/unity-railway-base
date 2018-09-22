@@ -24,13 +24,13 @@ public class RailObject {
     public float StartAngle;
     public float EndAngle;
 
-    public RailObject(Vector3 start, float angle, StraightRouteSegment segment) {
+    public RailObject(Vector3 start, float startAngle, StraightRouteSegment segment) {
         PlaneLength = segment.Length;
         MoveVector =
             new Vector3(
-                (float)Math.Sin(angle * DegreeToRadian),
+                (float)Math.Sin(startAngle * DegreeToRadian),
                 segment.Permil * 0.001f,
-                (float)Math.Cos(angle * DegreeToRadian)
+                (float)Math.Cos(startAngle * DegreeToRadian)
                 ) * segment.Length;
         Center = start + MoveVector / 2;
         Length = MoveVector.magnitude;
@@ -38,11 +38,11 @@ public class RailObject {
         LeftLength = Length;
         RightLength = Length;
         BaseLength = Length;
-        StartAngle = EndAngle = angle;
+        StartAngle = EndAngle = startAngle;
     }
 
-    public RailObject(Vector3 start, float angle, CurveRouteSegment segment) {
-        var middleAngle = angle + segment.Angle / 2.0;
+    public RailObject(Vector3 start, float startAngle, CurveRouteSegment segment) {
+        var middleAngle = startAngle + segment.Angle / 2.0;
         var direction =
             new Vector3(
                 (float)Math.Sin(middleAngle * DegreeToRadian),
@@ -62,8 +62,8 @@ public class RailObject {
         LeftLength = directionMagnitude * (PlaneLength - railOffset);
         RightLength = directionMagnitude * (PlaneLength + railOffset);
         BaseLength = directionMagnitude * (PlaneLength + baseOffset);
-        StartAngle = angle;
-        EndAngle = angle + segment.Angle;
+        StartAngle = startAngle;
+        EndAngle = startAngle + segment.Angle;
     }
 
     public Vector3 StartPosition { get { return Center - MoveVector / 2; } }
