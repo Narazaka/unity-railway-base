@@ -55,8 +55,8 @@ public class RailObject {
         Center = start + MoveVector / 2;
         Length = directionMagnitude * PlaneLength;
         Direction = MoveVector.normalized;
-        LeftLength = directionMagnitude * (PlaneLength + railOffset);
-        RightLength = directionMagnitude * (PlaneLength - railOffset);
+        LeftLength = directionMagnitude * (PlaneLength - railOffset);
+        RightLength = directionMagnitude * (PlaneLength + railOffset);
         BaseLength = directionMagnitude * (PlaneLength + baseOffset);
     }
 
