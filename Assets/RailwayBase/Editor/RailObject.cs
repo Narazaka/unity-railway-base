@@ -21,6 +21,8 @@ public class RailObject {
     public float RightLength;
     public float BaseLength;
     public Vector3 Direction;
+    public float StartAngle;
+    public float EndAngle;
 
     public RailObject(Vector3 start, float length, float angle, float permil) {
         PlaneLength = length;
@@ -36,14 +38,16 @@ public class RailObject {
         LeftLength = Length;
         RightLength = Length;
         BaseLength = Length;
+        StartAngle = EndAngle = angle;
     }
 
     public RailObject(Vector3 start, float radius, float angle, float addAngle, float permil) {
+        var middleAngle = angle + addAngle / 2.0;
         var direction =
             new Vector3(
-                (float)Math.Sin((angle + addAngle / 2.0) * DegreeToRadian),
+                (float)Math.Sin(middleAngle * DegreeToRadian),
                 permil * 0.001f,
-                (float)Math.Cos((angle + addAngle / 2.0) * DegreeToRadian)
+                (float)Math.Cos(middleAngle * DegreeToRadian)
                 );
         var directionMagnitude = direction.magnitude;
         PlaneLength = StraightLength(radius, addAngle);
@@ -58,7 +62,12 @@ public class RailObject {
         LeftLength = directionMagnitude * (PlaneLength - railOffset);
         RightLength = directionMagnitude * (PlaneLength + railOffset);
         BaseLength = directionMagnitude * (PlaneLength + baseOffset);
+        StartAngle = angle;
+        EndAngle = angle + addAngle;
     }
+
+    public Vector3 StartPosition { get { return Center - MoveVector / 2; } }
+    public Vector3 EndPosition { get { return Center + MoveVector / 2; } }
 
     /// <summary>
     /// 曲線相当直線の長さを求める
