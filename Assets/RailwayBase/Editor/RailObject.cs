@@ -2,8 +2,11 @@
 using UnityEngine;
 
 public class RailObject {
-    public const float RailWidth = 1.067f;
+    public const float RailBetweenWidth = 1.067f;
     public const float BaseWidth = 3.2f;
+    public const float RailWidth = 0.05f;
+    public const float RailHeight = 0.15f;
+    public const float BaseHeight = 0.2f;
 
     const double DegreeToRadian = Math.PI / 180;
 
@@ -44,7 +47,7 @@ public class RailObject {
                 );
         var directionMagnitude = direction.magnitude;
         PlaneLength = StraightLength(radius, addAngle);
-        var railOffset = StraightWidthOffsetLength(addAngle, RailWidth / 2.0f);
+        var railOffset = StraightWidthOffsetLength(addAngle, RailBetweenWidth / 2.0f);
         if (addAngle >= 0) railOffset *= -1;
         var baseOffset = StraightWidthOffsetLength(addAngle, BaseWidth / 2.0f);
 
