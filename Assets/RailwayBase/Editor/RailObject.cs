@@ -21,6 +21,8 @@ public class RailObject {
     public float RightLength;
     public float BaseLength;
     public Vector3 Direction;
+    public Vector3 StartDirection;
+    public Vector3 EndDirection;
     public float StartAngle;
     public float EndAngle;
 
@@ -32,7 +34,7 @@ public class RailObject {
             segment.Length;
         Center = start + MoveVector / 2;
         Length = MoveVector.magnitude;
-        Direction = MoveVector.normalized;
+        Direction = StartDirection = EndDirection = MoveVector.normalized;
         LeftLength = Length;
         RightLength = Length;
         BaseLength = Length;
@@ -41,9 +43,13 @@ public class RailObject {
 
     public RailObject(Vector3 start, float startAngle, CurveRouteSegment segment) {
         var middleAngle = startAngle + segment.Angle / 2.0f;
-        var direction =
-            Quaternion.Euler(0, middleAngle, 0) *
+        var startDirection =
+            Quaternion.Euler(0, startAngle, 0) *
             new Vector3(0, segment.Permil * 0.001f, 1);
+        var endDirection =
+            Quaternion.Euler(0, startAngle + segment.Angle, 0) *
+            new Vector3(0, segment.Permil * 0.001f, 1);
+        var direction = (startDirection + endDirection) / 2;
         var directionMagnitude = direction.magnitude;
         PlaneLength = StraightLength(segment.Radius, segment.Angle);
         var railOffset = StraightWidthOffsetLength(segment.Angle, RailBetweenWidth / 2.0f);
@@ -54,6 +60,8 @@ public class RailObject {
         Center = start + MoveVector / 2;
         Length = directionMagnitude * PlaneLength;
         Direction = MoveVector.normalized;
+        StartDirection = startDirection.normalized;
+        EndDirection = endDirection.normalized;
         LeftLength = directionMagnitude * (PlaneLength - railOffset);
         RightLength = directionMagnitude * (PlaneLength + railOffset);
         BaseLength = directionMagnitude * (PlaneLength + baseOffset);
