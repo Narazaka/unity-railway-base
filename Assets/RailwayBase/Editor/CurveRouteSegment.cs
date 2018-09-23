@@ -45,11 +45,11 @@ public class CurveRouteSegment : RouteSegment {
 
     private int SubSegmentCountByLength() {
         var maxSubAngle = 180 * MaxSubSegmentLength / Math.PI / Radius;
-        return (int)Math.Ceiling(Angle / maxSubAngle);
+        return (int)Math.Ceiling(Math.Abs(Angle) / maxSubAngle);
     }
 
     private int SubSegmentCountByAngle() {
-        return (int)Math.Ceiling(Angle / MaxSubSegmentAngle);
+        return (int)Math.Ceiling(Math.Abs(Angle) / MaxSubSegmentAngle);
     }
 
     private int SubSegmentCountByCant() {
