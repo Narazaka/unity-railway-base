@@ -8,6 +8,7 @@ public class RailObject {
     public const float RailWidth = 0.05f;
     public const float RailHeight = 0.15f;
     public const float BaseHeight = 0.2f;
+    public const float WheelBetweenWidth = 15.0f; // TODO
 
     const double DegreeToRadian = Math.PI / 180;
 
