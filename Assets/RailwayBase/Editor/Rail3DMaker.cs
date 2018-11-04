@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,24 +19,27 @@ public class Rail3DMaker {
         var railHeightPosition = Vector3.up * (RailObject.BaseHeight + RailObject.RailHeight) / 2;
         var leftRailPosition = railHeightPosition + Vector3.left * RailObject.RailBetweenWidth / 2;
         var rightRailPosition = railHeightPosition + Vector3.right * RailObject.RailBetweenWidth / 2;
+
+        var basePrefab = BasePrefab();
+        var railPrefab = RailPrefab();
         foreach (var railObject in railObjects) {
             var segmentObj = new GameObject("segment-" + index);
             segmentObj.transform.parent = container.transform;
             segmentObj.transform.position = railObject.Center + Vector3.up * railObject.CenterCantHeight;
             segmentObj.transform.rotation = Quaternion.FromToRotation(Vector3.forward, railObject.Direction) * railObject.CantRotation;
-            var baseObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var baseObj = Object.Instantiate(basePrefab);
             baseObj.name = "base";
             baseObj.transform.parent = segmentObj.transform;
             baseObj.transform.localScale = new Vector3(RailObject.BaseWidth, RailObject.BaseHeight, railObject.BaseLength);
             baseObj.transform.localPosition = Vector3.zero;
             baseObj.transform.localRotation = Quaternion.identity;
-            var leftRailObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var leftRailObj = Object.Instantiate(railPrefab);
             leftRailObj.name = "left-rail";
             leftRailObj.transform.parent = segmentObj.transform;
             leftRailObj.transform.localScale = new Vector3(RailObject.RailWidth, RailObject.RailHeight, railObject.LeftLength);
             leftRailObj.transform.localPosition = leftRailPosition;
             leftRailObj.transform.localRotation = Quaternion.identity;
-            var rightRailObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var rightRailObj = Object.Instantiate(railPrefab);
             rightRailObj.name = "right-rail";
             rightRailObj.transform.parent = segmentObj.transform;
             rightRailObj.transform.localScale = new Vector3(RailObject.RailWidth, RailObject.RailHeight, railObject.RightLength);
@@ -45,5 +47,13 @@ public class Rail3DMaker {
             rightRailObj.transform.localRotation = Quaternion.identity;
             ++index;
         }
+    }
+
+    static GameObject BasePrefab() {
+        return AssetDatabase.LoadAssetAtPath<GameObject>("Assets/RailwayBase/Prefabs/RailwayBase-Base.prefab");
+    }
+
+    static GameObject RailPrefab() {
+        return AssetDatabase.LoadAssetAtPath<GameObject>("Assets/RailwayBase/Prefabs/RailwayBase-Rail.prefab");
     }
 }
